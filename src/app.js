@@ -11,10 +11,10 @@ app.use(cors({
 }));
 
 // Defining how much json we take 
-app.use(express.json({limit:"16kb"}))
+app.use(express.json({ limit: "16kb" }))
 
 // Encodes the url 
-app.use(express.urlencoded({extended: true, limit: "16kb"}))
+app.use(express.urlencoded({ extended: true, limit: "16kb" }))
 
 // To use satice files when we use someting
 app.use(express.static("public"))
@@ -23,4 +23,14 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 
-export {app};
+// routes import
+import userRouter from './routes/user.routes.js'
+
+
+
+// routes declertion
+app.use('/api/v1/user', userRouter)
+// endpoint will be => http://localhost:8000/api/vi/user
+
+
+export { app };

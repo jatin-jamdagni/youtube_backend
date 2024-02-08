@@ -76,9 +76,28 @@ const registerUser = asyncHandler(async (req, res) => {
     return res.status(201).json(
         new ApiResponse(200, createdUser, "User registered Successfully")
     )
-
-
 })
 
 
-export { registerUser }
+const loginUser = asyncHandler( async( req, res)=>{
+
+    const { username , email, password} = req.body;
+
+    if( !username || !email) {
+        throw new ApiError(400, "Username or email required")
+    }
+
+    const user = await User.findById({
+        $or: [{username}, {email}]
+    })
+
+    if(!user){
+        throw new ApiError(401, "User not exist, please create new account")
+    }
+
+    const isPasswordValid = await user.isPasswordCorrect()
+
+})
+
+export { registerUser, loginUser};
+
